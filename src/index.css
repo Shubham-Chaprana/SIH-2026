@@ -1,0 +1,236 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  /* Base palette — warm, not sterile */
+  --color-surface: #FAFAF8;
+  --color-panel: #FFFFFF;
+  --color-border: #E8E6E0;
+  --color-border-subtle: #F0EEE8;
+
+  /* Text hierarchy */
+  --color-text-primary: #1A1A17;
+  --color-text-secondary: #6B6B63;
+  --color-text-tertiary: #9C9C91;
+  --color-text-inverse: #FAFAF8;
+
+  /* Primary accent */
+  --color-accent: #F5C518;
+  --color-accent-hover: #E0B40F;
+  --color-accent-subtle: #FDF8E1;
+
+  /* Classification colors — semantic, not decorative */
+  --color-class-industrial-persistent: #D97706;
+  --color-class-industrial-accidental: #DC2626;
+  --color-class-wildfire: #991B1B;
+  --color-class-agricultural: #6B7C3A;
+  --color-class-gas-flare: #7C3AED;
+  --color-class-unknown: #9CA3AF;
+
+  /* Risk scale — separate from classification */
+  --color-risk-critical: #DC2626;
+  --color-risk-high: #EA580C;
+  --color-risk-moderate: #D97706;
+  --color-risk-low: #16A34A;
+
+  /* Status */
+  --color-status-live: #16A34A;
+  --color-status-error: #DC2626;
+  --color-status-loading: #D97706;
+
+  /* Typography */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Spacing scale */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 0.75rem;
+  --spacing-lg: 1rem;
+  --spacing-xl: 1.5rem;
+  --spacing-2xl: 2rem;
+  --spacing-3xl: 3rem;
+
+  /* Border radius */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+}
+
+/* Base reset and defaults */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  color: var(--color-text-primary);
+  background: var(--color-surface);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-size: 15px;
+  line-height: 1.6;
+  background: #f7f5f1;
+  color: var(--color-text-primary);
+}
+
+body,
+button,
+input,
+select,
+textarea,
+option,
+label,
+span,
+p,
+div,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+td,
+th {
+  font-size: inherit;
+}
+
+.text-xs { font-size: 0.8125rem !important; }
+.text-sm { font-size: 0.9375rem !important; }
+.text-[10px] { font-size: 12px !important; }
+.text-[11px] { font-size: 12px !important; }
+.text-[0\.62rem] { font-size: 12px !important; }
+.text-[0\.68rem] { font-size: 0.8rem !important; }
+.text-[0\.72rem] { font-size: 0.82rem !important; }
+.text-[0\.74rem] { font-size: 0.84rem !important; }
+.text-[0\.77rem] { font-size: 0.88rem !important; }
+.text-[0\.78rem] { font-size: 0.875rem !important; }
+.text-[0\.8rem] { font-size: 0.9rem !important; }
+.text-[0\.82rem] { font-size: 0.92rem !important; }
+.text-[0\.92rem] { font-size: 1rem !important; }
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-page {
+  font-size: 15px;
+}
+
+.dashboard-page h1 {
+  font-size: clamp(1.35rem, 2vw, 1.8rem);
+  letter-spacing: -0.04em;
+  line-height: 1.2;
+}
+
+.dashboard-page h2 {
+  font-size: clamp(1.05rem, 1.4vw, 1.4rem);
+  line-height: 1.25;
+}
+
+.dashboard-page h3 {
+  font-size: clamp(0.96rem, 1.2vw, 1.15rem);
+  line-height: 1.3;
+}
+
+.dashboard-page p,
+.dashboard-page span,
+.dashboard-page label,
+.dashboard-page button,
+.dashboard-page input,
+.dashboard-page div {
+  font-size: inherit;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.15;
+  margin: 0;
+}
+
+p, li, td, th, label, input, button, span {
+  line-height: 1.5;
+}
+
+.dashboard-page .section-gap {
+  gap: 1.5rem;
+}
+
+.dashboard-page .panel-padding {
+  padding: 1.25rem;
+}
+
+/* Monospace data elements */
+.font-data {
+  font-family: var(--font-mono);
+  font-feature-settings: 'tnum' 1;
+  letter-spacing: -0.01em;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-tertiary);
+}
+
+/* MapLibre overrides — keep popups on-brand */
+.maplibregl-popup-content {
+  background: var(--color-panel) !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+  padding: 0 !important;
+  font-family: var(--font-sans) !important;
+}
+
+.maplibregl-popup-tip {
+  border-top-color: var(--color-panel) !important;
+}
+
+.maplibregl-popup-close-button {
+  font-size: 16px;
+  padding: 4px 8px;
+  color: var(--color-text-secondary);
+}
+
+/* Skeleton loading animation */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-border-subtle) 25%,
+    var(--color-surface) 50%,
+    var(--color-border-subtle) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: var(--radius-sm);
+}
