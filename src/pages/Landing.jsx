@@ -5,34 +5,172 @@ import { motion } from 'framer-motion';
 // Lazy load the 3D globe to avoid blocking initial paint
 const GlobeCanvas = lazy(() => import('../components/landing/GlobeCanvas'));
 
+// Custom SVG Icons matching hero lightning bolt stroke language (2.2px stroke, rounded)
+function SatelliteIcon({ className = 'w-6 h-6' }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+    </svg>
+  );
+}
+
+function ContextLayersIcon({ className = 'w-6 h-6' }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <polygon points="12 2 2 7 12 12 22 7 12 2" />
+      <polyline points="2 17 12 22 22 17" />
+      <polyline points="2 12 12 17 22 12" />
+    </svg>
+  );
+}
+
+function AIClassificationIcon({ className = 'w-6 h-6' }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="4" y="4" width="16" height="16" rx="2" />
+      <rect x="9" y="9" width="6" height="6" />
+      <line x1="9" y1="1" x2="9" y2="4" />
+      <line x1="15" y1="1" x2="15" y2="4" />
+      <line x1="9" y1="20" x2="9" y2="23" />
+      <line x1="15" y1="20" x2="15" y2="23" />
+      <line x1="20" y1="9" x2="23" y2="9" />
+      <line x1="20" y1="15" x2="23" y2="15" />
+      <line x1="1" y1="9" x2="4" y2="9" />
+      <line x1="1" y1="15" x2="4" y2="15" />
+    </svg>
+  );
+}
+
+function RiskRadarIcon({ className = 'w-6 h-6' }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="9" />
+      <circle cx="12" cy="12" r="5" />
+      <line x1="12" y1="3" x2="12" y2="21" />
+      <line x1="3" y1="12" x2="21" y2="12" />
+    </svg>
+  );
+}
+
 const container = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
-    transition: { staggerChildren: 0.1, delayChildren: 0.2 },
+    transition: { staggerChildren: 0.1, delayChildren: 0.15 },
   },
 };
 
 const item = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
+  hidden: { opacity: 0, y: 16 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: 'easeOut' } },
 };
 
 export default function Landing() {
+  const steps = [
+    {
+      num: '01',
+      step: 'Satellite Detection',
+      desc: 'NASA FIRMS ingests thermal anomalies every 10–20 minutes from SNPP, NOAA-20, Aqua, Terra, and Sentinel-2.',
+      icon: SatelliteIcon,
+    },
+    {
+      num: '02',
+      step: 'Context Enrichment',
+      desc: 'Cross-reference with OpenStreetMap industrial polygons, ESA land-cover classes, and population density buffers.',
+      icon: ContextLayersIcon,
+    },
+    {
+      num: '03',
+      step: 'AI Classification',
+      desc: 'Machine learning ensemble (XGBoost + ViT) classifies as industrial, wildfire, agricultural, or gas flare.',
+      icon: AIClassificationIcon,
+    },
+    {
+      num: '04',
+      step: 'Risk & Investigation',
+      desc: 'Risk score ranks priority. Evidence cards explain the classification. Full thermal history on every event.',
+      icon: RiskRadarIcon,
+    },
+  ];
+
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-b from-[#FAFAF8] via-white to-[#F5F0E6]">
-      {/* Hero Section */}
-      <section className="mx-auto grid w-full min-h-[90vh] max-w-7xl items-center gap-8 px-8 py-12 lg:grid-cols-[1.08fr_0.92fr]">
+    <div className="flex flex-col min-h-screen bg-gradient-to-b from-[#FAFAF8] via-white to-[#F5F0E6] text-[var(--color-text-primary)]">
+      {/* Top Navigation Header */}
+      <header className="sticky top-0 z-50 w-full bg-[#FAFAF8]/90 backdrop-blur-md border-b border-[var(--color-border)] transition-all">
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6 md:px-8">
+          {/* Brand Logo */}
+          <div className="flex items-center gap-3">
+            <Link to="/" className="flex items-center gap-2.5 group">
+              <div className="w-8 h-8 rounded-[var(--radius-md)] bg-[var(--color-accent)] flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform shrink-0">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1A1A17" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                </svg>
+              </div>
+              <span className="text-[19px] font-bold tracking-[-0.04em] text-[#1A1A17]">
+                THERMOS
+              </span>
+            </Link>
+            <span className="hidden sm:inline-flex items-center gap-1.5 ml-2 px-2 py-0.5 rounded-full text-[11px] font-medium bg-emerald-50 text-emerald-800 border border-emerald-200/70 font-data">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              FIRMS Live Feed
+            </span>
+          </div>
+
+          {/* Navigation Links */}
+          <nav className="hidden md:flex items-center gap-8 text-[14px] font-medium text-[#4A4A43]">
+            <a href="#overview" className="hover:text-[#1A1A17] transition-colors">
+              Overview
+            </a>
+            <a href="#problem" className="hover:text-[#1A1A17] transition-colors">
+              Problem
+            </a>
+            <a href="#how-it-works" className="hover:text-[#1A1A17] transition-colors">
+              How It Works
+            </a>
+            <Link to="/analytics" className="hover:text-[#1A1A17] transition-colors">
+              Analytics
+            </Link>
+            <Link to="/intelligence" className="hover:text-[#1A1A17] transition-colors">
+              Intelligence
+            </Link>
+          </nav>
+
+          {/* Right Actions */}
+          <div className="flex items-center gap-3">
+            <a
+              href="https://github.com"
+              target="_blank"
+              rel="noreferrer"
+              className="hidden sm:inline-flex text-[13px] font-medium text-[#4A4A43] hover:text-[#1A1A17] transition-colors px-2 py-1"
+            >
+              GitHub
+            </a>
+            <Link
+              to="/dashboard"
+              className="inline-flex items-center gap-2 rounded-[var(--radius-md)] bg-[var(--color-accent)] px-4 py-2 text-[13.5px] font-semibold text-[#1A1A17] shadow-xs hover:bg-[var(--color-accent-hover)] hover:shadow-sm active:scale-95 transition-all"
+            >
+              <span>Launch Dashboard</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
+            </Link>
+          </div>
+        </div>
+      </header>
+
+      {/* 1. Hero Section */}
+      <section id="overview" className="mx-auto grid w-full min-h-[82vh] max-w-7xl items-center gap-10 px-6 py-12 md:px-8 lg:grid-cols-[1.1fr_0.9fr] lg:py-16">
         {/* Left: Hero Text */}
         <motion.div
           className="flex min-w-0 flex-col justify-center"
-          initial={{ opacity: 0, x: -40 }}
+          initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, ease: 'easeOut' }}
+          transition={{ duration: 0.55, ease: 'easeOut' }}
         >
           <div className="mb-6 flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-[var(--color-accent)] flex items-center justify-center shadow-md shrink-0">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1A1A17" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <div className="w-11 h-11 rounded-[var(--radius-lg)] bg-[var(--color-accent)] flex items-center justify-center shadow-md shrink-0">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A1A17" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
               </svg>
             </div>
@@ -41,39 +179,41 @@ export default function Landing() {
             </h1>
           </div>
 
-          <p className="mb-4 max-w-[36rem] text-[clamp(1.08rem,1.8vw,1.5rem)] font-medium leading-[1.35] text-[var(--color-text-secondary)]">
+          <p className="mb-4 max-w-[38rem] text-[clamp(1.15rem,2vw,1.55rem)] font-semibold leading-[1.3] text-[#2B2B26]">
             Satellite Thermal Intelligence for Industrial Fire Detection
           </p>
 
-          <p className="mb-8 max-w-[42rem] text-[17px] leading-[1.6] text-[var(--color-text-secondary)]">
+          <p className="mb-8 max-w-[42rem] text-[16.5px] leading-[1.65] text-[#484841]">
             NASA FIRMS detects thermal anomalies from satellites. THERMOS classifies what they actually are — industrial fires, gas flares, wildfires, or agricultural burning — with confidence scores and risk analysis in one operational dashboard.
           </p>
 
-          <Link
-            to="/dashboard"
-            className="inline-flex max-w-xs items-center justify-center rounded-[var(--radius-lg)] bg-[var(--color-accent)] px-6 py-3 font-semibold text-[var(--color-text-primary)] shadow-sm transition-all hover:bg-[var(--color-accent-hover)] hover:shadow-md"
-          >
-            Enter Dashboard
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="ml-2">
-              <line x1="5" y1="12" x2="19" y2="12" />
-              <polyline points="12 5 19 12 12 19" />
-            </svg>
-          </Link>
+          <div>
+            <Link
+              to="/dashboard"
+              className="inline-flex items-center justify-center gap-2.5 whitespace-nowrap rounded-[var(--radius-lg)] bg-[var(--color-accent)] px-7 py-3.5 text-[15px] font-semibold text-[#1A1A17] shadow-sm transition-all hover:bg-[var(--color-accent-hover)] hover:shadow-md active:scale-[0.98]"
+            >
+              <span>Enter Dashboard</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="shrink-0">
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
+            </Link>
+          </div>
         </motion.div>
 
         {/* Right: 3D Globe */}
         <motion.div
-          className="h-[500px] min-w-0 overflow-hidden rounded-[var(--radius-xl)] shadow-lg"
-          initial={{ opacity: 0, x: 40 }}
+          className="h-[460px] md:h-[520px] min-w-0 overflow-hidden rounded-[var(--radius-xl)] bg-gradient-to-b from-[#FAF8F5]/80 to-[#ECE6D8]/60 border border-[var(--color-border)] shadow-lg relative"
+          initial={{ opacity: 0, x: 30 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, ease: 'easeOut' }}
+          transition={{ duration: 0.55, ease: 'easeOut' }}
         >
           <Suspense
             fallback={
-              <div className="w-full h-full bg-gradient-to-br from-[#F5F0E6] to-[#E8E0D0] flex items-center justify-center">
+              <div className="w-full h-full flex items-center justify-center">
                 <div className="text-center">
                   <div className="w-12 h-12 rounded-full border-2 border-[var(--color-border)] border-t-[var(--color-accent)] animate-spin mx-auto mb-3" />
-                  <p className="text-[14px] text-[var(--color-text-tertiary)]">Loading globe…</p>
+                  <p className="text-[14px] text-[#54544D] font-medium">Initializing satellite thermal globe…</p>
                 </div>
               </div>
             }
@@ -83,119 +223,143 @@ export default function Landing() {
         </motion.div>
       </section>
 
-      {/* Problem Section: 3 Cards */}
-      <section className="px-8 py-16 bg-white/50">
+      {/* 2. Problem vs Solution Section: 3 Cards */}
+      <section id="problem" className="scroll-mt-16 px-6 py-16 md:px-8 bg-white/60 border-y border-[var(--color-border)]">
         <motion.div
-          className="max-w-6xl mx-auto grid grid-cols-3 gap-6"
+          className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6"
           variants={container}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, margin: '-100px' }}
+          viewport={{ once: true, amount: 0.1 }}
         >
+          {/* Problem Card 1 */}
           <motion.div
             variants={item}
-            className="p-6 bg-white border border-[var(--color-border)] rounded-[var(--radius-lg)] shadow-sm hover:shadow-md transition-shadow"
+            className="p-5 bg-[#FAFAF8] border border-[#E8E5DE] rounded-[var(--radius-lg)] shadow-sm hover:border-[#D8D4CA] transition-all flex flex-col justify-between"
           >
-            <div className="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center mb-4">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D97706" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="9" />
-                <line x1="12" y1="8" x2="12" y2="16" />
-                <line x1="8" y1="12" x2="16" y2="12" />
-              </svg>
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <div className="w-11 h-11 rounded-[var(--radius-md)] bg-amber-100/70 border border-amber-200 flex items-center justify-center text-amber-800 shrink-0">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="9" />
+                    <line x1="12" y1="8" x2="12" y2="16" />
+                    <line x1="8" y1="12" x2="16" y2="12" />
+                  </svg>
+                </div>
+                <span className="px-2 py-0.5 rounded text-[11px] font-bold uppercase tracking-wider bg-stone-200/70 text-stone-700 font-data">
+                  Problem 01
+                </span>
+              </div>
+              <h3 className="text-[16px] font-bold text-[#1A1A17] mb-1.5">Raw Thermal Points</h3>
+              <p className="text-[14px] text-[#4A4A43] leading-[1.55]">
+                NASA FIRMS gives raw coordinates of heat from space. No context — just lat/lng without identity.
+              </p>
             </div>
-            <h3 className="font-semibold text-[var(--color-text-primary)] mb-2">Raw Thermal Points</h3>
-            <p className="text-sm text-[var(--color-text-tertiary)]">NASA FIRMS gives raw coordinates of heat from space. No context — just lat/lng.</p>
           </motion.div>
 
+          {/* Problem Card 2 */}
           <motion.div
             variants={item}
-            className="p-6 bg-white border border-[var(--color-border)] rounded-[var(--radius-lg)] shadow-sm hover:shadow-md transition-shadow"
+            className="p-5 bg-[#FAFAF8] border border-[#E8E5DE] rounded-[var(--radius-lg)] shadow-sm hover:border-[#D8D4CA] transition-all flex flex-col justify-between"
           >
-            <div className="w-10 h-10 rounded-lg bg-red-50 flex items-center justify-center mb-4">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#DC2626" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" />
-                <path d="M15 9l-6 6m0-6l6 6" />
-              </svg>
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <div className="w-11 h-11 rounded-[var(--radius-md)] bg-red-100/70 border border-red-200 flex items-center justify-center text-red-700 shrink-0">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="9" />
+                    <line x1="15" y1="9" x2="9" y2="15" />
+                    <line x1="9" y1="9" x2="15" y2="15" />
+                  </svg>
+                </div>
+                <span className="px-2 py-0.5 rounded text-[11px] font-bold uppercase tracking-wider bg-stone-200/70 text-stone-700 font-data">
+                  Problem 02
+                </span>
+              </div>
+              <h3 className="text-[16px] font-bold text-[#1A1A17] mb-1.5">No Classification</h3>
+              <p className="text-[14px] text-[#4A4A43] leading-[1.55]">
+                A refinery flare looks identical to an uncontrolled wildfire. Operators cannot tell the difference.
+              </p>
             </div>
-            <h3 className="font-semibold text-[var(--color-text-primary)] mb-2">No Classification</h3>
-            <p className="text-sm text-[var(--color-text-tertiary)]">A refinery flare looks the same as a wildfire. Operators can't tell the difference.</p>
           </motion.div>
 
+          {/* Solution Card 3: Visually Distinct with Brand Yellow */}
           <motion.div
             variants={item}
-            className="p-6 bg-white border border-[var(--color-border)] rounded-[var(--radius-lg)] shadow-sm hover:shadow-md transition-shadow"
+            className="p-5 bg-[#FFFDF2] border-2 border-[#F5C518] rounded-[var(--radius-lg)] shadow-md ring-1 ring-[#F5C518]/30 transition-all flex flex-col justify-between"
           >
-            <div className="w-10 h-10 rounded-lg bg-orange-50 flex items-center justify-center mb-4">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#EA580C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-              </svg>
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <div className="w-11 h-11 rounded-[var(--radius-md)] bg-[var(--color-accent)] flex items-center justify-center text-[#1A1A17] shadow-sm shrink-0">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                  </svg>
+                </div>
+                <span className="px-2.5 py-0.5 rounded text-[11px] font-bold uppercase tracking-wider bg-[#F5C518] text-[#1A1A17] font-data shadow-xs">
+                  The Solution
+                </span>
+              </div>
+              <h3 className="text-[16px] font-bold text-[#1A1A17] mb-1.5">THERMOS Solves It</h3>
+              <p className="text-[14px] text-[#2E2E28] leading-[1.55] font-medium">
+                AI + satellite context classifies every anomaly with confidence. Risk ranking enables instant dispatch.
+              </p>
             </div>
-            <h3 className="font-semibold text-[var(--color-text-primary)] mb-2">THERMOS Solves It</h3>
-            <p className="text-sm text-[var(--color-text-tertiary)]">AI + satellite context classifies every anomaly with confidence. Risk ranking for fast dispatch.</p>
           </motion.div>
         </motion.div>
       </section>
 
-      {/* How It Works: Vertical Flow */}
-      <section className="px-8 py-20">
-        <div className="mx-auto mb-16 w-full max-w-4xl text-center">
-          <h2 className="mx-auto mb-3 max-w-[18ch] text-[clamp(2.2rem,3vw,3.4rem)] font-bold tracking-[-0.05em] text-[var(--color-text-primary)] leading-[1.05]">
+      {/* 3. How It Works Section: Vertical Flow */}
+      <section id="how-it-works" className="scroll-mt-16 px-6 py-16 md:px-8 lg:py-20">
+        {/* Section Header: Consistent Center Alignment */}
+        <div className="mx-auto mb-10 w-full max-w-3xl text-center">
+          <h2 className="text-[clamp(2rem,3.2vw,3rem)] font-bold tracking-[-0.05em] text-[#1A1A17] leading-[1.1] mb-3">
             How It Works
           </h2>
-          <p className="mx-auto max-w-[30rem] text-center text-[17px] leading-[1.6] text-[var(--color-text-secondary)]" style={{ textWrap: 'balance' }}>
-            Four steps from satellite to operational intelligence
+          <p className="text-[16.5px] leading-[1.6] text-[#4A4A43] max-w-[32rem] mx-auto">
+            Four sequential steps from satellite raw telemetry to operational intelligence
           </p>
         </div>
 
-        <div className="mx-auto max-w-3xl space-y-0">
-          {[
-            {
-              step: 'Satellite Detection',
-              desc: 'NASA FIRMS ingests thermal anomalies every 10–20 minutes from SNPP, NOAA-20, Aqua, Terra, and Sentinel-2.',
-              icon: '🛰️',
-            },
-            {
-              step: 'Context Enrichment',
-              desc: 'Cross-reference with OSM industrial polygons, ESA land-cover classes, and population density buffers.',
-              icon: '🗺️',
-            },
-            {
-              step: 'AI Classification',
-              desc: 'Machine learning ensemble (XGBoost + ViT) classifies as industrial, wildfire, agricultural, or gas flare.',
-              icon: '🧠',
-            },
-            {
-              step: 'Risk & Investigation',
-              desc: 'Risk score ranks priority. Evidence cards explain the classification. Full thermal history on every event.',
-              icon: '📊',
-            },
-          ].map((block, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-50px' }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-            >
-              {/* Connecting line (except last) */}
-              {i < 3 && (
-                <motion.div
-                  className="mx-auto w-1 h-12 bg-gradient-to-b from-[var(--color-accent)] to-[var(--color-border)]"
-                  initial={{ opacity: 0, scaleY: 0 }}
-                  whileInView={{ opacity: 1, scaleY: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: i * 0.1 + 0.1 }}
-                />
-              )}
+        {/* Timeline Steps */}
+        <div className="mx-auto max-w-2xl">
+          {steps.map((block, i) => {
+            const Icon = block.icon;
+            return (
+              <motion.div
+                key={block.num}
+                initial={{ opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.1 }}
+                transition={{ duration: 0.45, delay: i * 0.08 }}
+                className="relative flex flex-col items-center"
+              >
+                {/* Connecting Spine Line (between steps) */}
+                {i > 0 && (
+                  <div className="w-0.5 h-8 bg-gradient-to-b from-[#F5C518] to-[#D8D3C8] my-1" />
+                )}
 
-              {/* Step Card */}
-              <div className="flex flex-col items-center text-center py-8">
-                <div className="text-4xl mb-4">{block.icon}</div>
-                <h3 className="text-lg font-bold text-[var(--color-text-primary)] mb-2">{block.step}</h3>
-                <p className="text-sm text-[var(--color-text-secondary)] max-w-sm leading-relaxed">{block.desc}</p>
-              </div>
-            </motion.div>
-          ))}
+                {/* Step Card Box with Normal Paragraph Wrapping & Proper Max-Width */}
+                <div className="w-full max-w-[560px] p-6 bg-white border border-[#E8E5DF] rounded-[var(--radius-xl)] shadow-xs hover:shadow-md transition-all text-center flex flex-col items-center">
+                  {/* Step Number & Icon Badge */}
+                  <div className="flex items-center gap-3 mb-3.5">
+                    <span className="w-7 h-7 rounded-full bg-[var(--color-accent)] text-[#1A1A17] text-[12px] font-bold flex items-center justify-center font-data shadow-xs">
+                      {block.num}
+                    </span>
+                    <div className="w-10 h-10 rounded-[var(--radius-md)] bg-[#F5F0E6] border border-[#E4DDCF] flex items-center justify-center text-[#1A1A17] shadow-xs">
+                      <Icon className="w-5 h-5 text-[#1A1A17]" />
+                    </div>
+                  </div>
+
+                  {/* Title & Description with Proper Max Width */}
+                  <h3 className="text-[17px] font-bold text-[#1A1A17] mb-2 tracking-[-0.02em]">
+                    {block.step}
+                  </h3>
+                  <p className="text-[14.5px] text-[#45453E] leading-[1.6] max-w-[480px] mx-auto">
+                    {block.desc}
+                  </p>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
       </section>
 
