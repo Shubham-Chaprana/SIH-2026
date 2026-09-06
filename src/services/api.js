@@ -1,4 +1,4 @@
-const API_BASE_URL = (import.meta.env.VITE_THERMOS_API_URL || 'https://thermos-backend-82ot.onrender.com').replace(/\/$/, '');
+const API_BASE_URL = (import.meta.env.VITE_THERMOS_API_URL || 'https://thermos-backend-gz3d.onrender.com').replace(/\/$/, '');
 
 export async function fetchAnomalies() {
   const response = await fetch(`${API_BASE_URL}/api/anomalies`);
