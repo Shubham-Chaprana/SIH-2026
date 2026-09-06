@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { mockGeoJSON } from '../data/mockData';
+import { fetchLiveEvents } from '../services/api';
 
 const PRESET_TIME_WINDOWS = {
   '24H': [0.96, 1],
@@ -21,6 +22,18 @@ const DATE_RANGE_DAYS = {
 export const useStore = create((set, get) => ({
   // All events (GeoJSON)
   events: mockGeoJSON,
+  dataSource: 'demo',
+  loading: false,
+  apiError: null,
+  hydrateEvents: async () => {
+    set({ loading: true, apiError: null });
+    try {
+      const events = await fetchLiveEvents();
+      set({ events, dataSource: 'live', loading: false });
+    } catch (error) {
+      set({ apiError: error.message, loading: false });
+    }
+  },
 
   // Selected event (clicked from map/list/anywhere)
   selectedEventId: null,

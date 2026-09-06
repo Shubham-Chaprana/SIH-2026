@@ -7,8 +7,16 @@ import Analytics from './pages/Analytics';
 import Intelligence from './pages/Intelligence';
 import Investigator from './pages/Investigator';
 import SystemHealth from './pages/SystemHealth';
+import { useEffect } from 'react';
+import { useStore } from './store/useStore';
 
 export default function App() {
+  const hydrateEvents = useStore((state) => state.hydrateEvents);
+
+  useEffect(() => {
+    hydrateEvents();
+  }, [hydrateEvents]);
+
   return (
     <BrowserRouter>
       <Routes>
