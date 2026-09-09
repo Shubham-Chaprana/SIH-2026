@@ -1,4 +1,4 @@
-# THERMOS — Satellite Thermal Intelligence (Backend)
+# THERMOS — Thermal Event Recognition and Monitoring Operational System (Backend)
 
 > **Synthetic-data disclaimer:** the bundled development dataset (`THERMOS_ML_Core_15_Columns.csv`,
 > 36k balanced rows) is **synthetic development data, NOT real NASA FIRMS ground truth**.

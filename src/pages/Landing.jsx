@@ -180,7 +180,7 @@ export default function Landing() {
           </div>
 
           <p className="mb-4 max-w-[38rem] text-[clamp(1.15rem,2vw,1.55rem)] font-semibold leading-[1.3] text-[#2B2B26]">
-            Satellite Thermal Intelligence for Industrial Fire Detection
+            Thermal Event Recognition and Monitoring Operational System
           </p>
 
           <p className="mb-8 max-w-[42rem] text-[16.5px] leading-[1.65] text-[#484841]">
